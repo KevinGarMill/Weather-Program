@@ -32,9 +32,18 @@ class WeatherClient(object):
     def hourly_forecast(self, location):
         # adquirir datos de la pagina web
         data = self.get_json(location, "hourly")
+        hourly_forecast = []
+
         # procesar resultados
+        for element in data["hourly_forecast"]:
+            tmp_list = []
+            tmp_list.append(element["FCTTIME"]["civil"])
+            tmp_list.append(element["temp"]["metric"])
+            tmp_list.append(element["condition"])
+            hourly_forecast.append(tmp_list)
+
         # devolver resultados
-        return data
+        return hourly_forecast
 
 
 if __name__ == "__main__":
