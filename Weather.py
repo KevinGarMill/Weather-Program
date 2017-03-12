@@ -43,7 +43,11 @@ class WeatherClient(object):
             hourly_forecast.append(tmp_list)
 
         # devolver resultados
-        return hourly_forecast
+        print "Forecast for the next hours:"
+        for hour in hourly_forecast:
+            print "    Time: "+hour[0]
+            print "        Temperature: "+hour[1]
+            print "        Forecast: "+hour[2]+"\n"
 
 
 if __name__ == "__main__":
