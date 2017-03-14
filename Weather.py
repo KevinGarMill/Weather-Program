@@ -74,14 +74,18 @@ class WeatherClient(object):
         conditions = []
 
         # procesar resultados
-
         conditions.append(data["current_observation"]["observation_time_rfc822"])
         conditions.append(data["current_observation"]["relative_humidity"])
         conditions.append(data["current_observation"]["wind_string"])
         conditions.append(data["current_observation"]["pressure_mb"])
 
         # devolver resultados
-        print conditions
+        print "Conditions:"
+        print "    Time of observation: " + conditions[0]
+        print "    Humidity: " + conditions[1]
+        print "    Wind information: " + conditions[2]
+        print "    Presure in millibars: " + conditions[3]
+
 
 if __name__ == "__main__":
     if not api_key:
