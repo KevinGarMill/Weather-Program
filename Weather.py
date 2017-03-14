@@ -4,8 +4,8 @@
 
 import sys
 import urllib2
-
 import json
+from optparse import OptionParser
 
 api_key = None
 
@@ -88,14 +88,37 @@ class WeatherClient(object):
 
 
 if __name__ == "__main__":
-    if not api_key:
-        try:
-            api_key = sys.argv[1]
-        except IndexError:
-            print "Api Key must be in CLI option"
+    usage = "ussage: %Weather.py -k arg1 [options]"
+    parser = OptionParser(usage=usage)
+
+    parser.add_option("-f", action="store_true", dest="hourly",
+        default=False, help="show a forecast for the next hours")
+    parser.add_option("-a", action="store_true", dest="astronomy",
+        default=False, help="show the sunrise, sunset, moonrise and moonset")
+    parser.add_option("-c", action="store_true", dest="conditions",
+        default=False, help="show some weather conditions")
+    parser.add_option("-k", action="store", type="string", dest="key",
+        help="key necesary to connect with the api")
+
+    (options, args) = parser.parse_args()
+
+    if not options.key:
+        parser.error("A key is necesary, introduce: 'Weather.py -k <api_key>'")
+    if not (options.astronomy or options.hourly or options.conditions):
+        parser.error("Introduce atleast one option: '-a' '-c' '-f'")
+
+    active_hourly = options.hourly
+    active_astronomy = options.astronomy
+    active_conditions = options.conditions
+    api_key = options.key
 
     wc = WeatherClient(api_key)
 
-    wc.hourly_forecast("Lleida")
-    wc.astronomy("Lleida")
-    wc.conditions("Lleida")
+    if active_hourly:
+        wc.hourly_forecast("Lleida")
+
+    if active_astronomy:
+        wc.astronomy("Lleida")
+
+    if active_conditions:
+        wc.conditions("Lleida")
