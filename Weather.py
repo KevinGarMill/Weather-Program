@@ -14,7 +14,8 @@ class WeatherClient(object):
 
     url_base = "http://api.wunderground.com/api/"
     url_service = {
-        "hourly": "/hourly/q/Spain/"
+        "hourly": "/hourly/q/Spain/",
+        "astronomy": "/astronomy/q/Spain/"
     }
 
     def __init__(self, arg):
@@ -49,6 +50,18 @@ class WeatherClient(object):
             print "        Temperature: "+hour[1]
             print "        Forecast: "+hour[2]+"\n"
 
+    def astronomy(self, location):
+        data = self.get_json(location, "astronomy")
+        astronomy = []
+        # procesar resultados
+        astronomy.append(data["moon_phase"]["sunrise"])
+        astronomy.append(data["moon_phase"]["sunset"])
+        astronomy.append(data["moon_phase"]["moonrise"])
+        astronomy.append(data["moon_phase"]["moonset"])
+
+        # devolver resultados
+        return astronomy
+
 
 if __name__ == "__main__":
     if not api_key:
@@ -59,4 +72,5 @@ if __name__ == "__main__":
 
     wc = WeatherClient(api_key)
 
-    print wc.hourly_forecast("LLeida")
+    print wc.hourly_forecast("Lleida")
+    print wc.astronomy("Lleida")
