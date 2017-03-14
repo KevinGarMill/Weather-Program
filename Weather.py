@@ -46,13 +46,14 @@ class WeatherClient(object):
         # devolver resultados
         print "Forecast for the next hours:"
         for hour in hourly_forecast:
-            print "    Time: "+hour[0]
-            print "        Temperature: "+hour[1]
-            print "        Forecast: "+hour[2]+"\n"
+            print "    Time: " + hour[0]
+            print "        Temperature: " + hour[1]
+            print "        Forecast: " + hour[2] + "\n"
 
     def astronomy(self, location):
         data = self.get_json(location, "astronomy")
         astronomy = []
+
         # procesar resultados
         astronomy.append(data["moon_phase"]["sunrise"])
         astronomy.append(data["moon_phase"]["sunset"])
@@ -60,7 +61,11 @@ class WeatherClient(object):
         astronomy.append(data["moon_phase"]["moonset"])
 
         # devolver resultados
-        return astronomy
+        print "Astronomy, Sun phase and Moon phase:"
+        print "    Sunrise for today: " + astronomy[0]["hour"] + ":" + astronomy[0]["minute"]
+        print "    Sunset for today: " + astronomy[1]["hour"] + ":" + astronomy[1]["minute"]
+        print "    Moonrise for today: " + astronomy[2]["hour"] + ":"+astronomy[2]["minute"]
+        print "    Moonset for today: " + astronomy[3]["hour"] + ":"+astronomy[3]["minute"] + "\n"
 
 
 if __name__ == "__main__":
@@ -72,5 +77,5 @@ if __name__ == "__main__":
 
     wc = WeatherClient(api_key)
 
-    print wc.hourly_forecast("Lleida")
-    print wc.astronomy("Lleida")
+    wc.hourly_forecast("Lleida")
+    wc.astronomy("Lleida")
